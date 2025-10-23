@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: monapp-gateway
+spec:
+  selector:
+    istio: ingressgateway 
+  servers:
+  - port:
+      number: 30365
+      name: http
+      protocol: HTTP
+    hosts:
+    - "monapp-service.default.svc.cluster.local"  

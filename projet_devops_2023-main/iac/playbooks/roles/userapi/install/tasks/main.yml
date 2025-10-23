@@ -1,0 +1,62 @@
+---
+- name: Install required packages
+  yum:
+    name:
+      - curl
+      -  policycoreutils
+      - openssh-server
+      - perl
+    state: latest
+
+- name: Enable and start sshd
+  service:
+    name: ssh
+    state: started
+    enabled: yes
+
+
+- name: Enable HTTP+HTTPS access
+  firewalld:
+    # This is how we use a variable
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+  # The module will be run for each item
+  with_items:
+    - http
+    - https
+
+- name: Reload firewalld
+  service:
+    name: firewalld
+    state: reloaded
+
+- name: Install postfix
+  yum:
+    name: postfix
+    state: latest
+
+- name: Enable and start postfix
+  service:
+    name: postfix
+    state: started
+    enabled: yes
+
+
+# Install userapi dependencies using npm
+- name: Install userapi dependencies
+  npm:
+    path: .../userapi/src
+    name:
+      - body-parser
+      - express
+      - mixme
+      - mysql
+      - redis
+    global: no
+    state: present
+
+# Configure userapi environment 
+#- name: Configure userapi environment
+  # Tasks
+  

@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: monapp
+spec:
+  hosts:
+  - "monapp-service.default.svc.cluster.local"  
+  gateways:
+  - monapp-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: monapp-service
+    ports:
+    - port: 30365  # Port à l'extérieur du cluster

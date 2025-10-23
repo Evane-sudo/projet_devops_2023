@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monapp-deployment
+  labels:
+    app: monapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: monapp
+  template:
+    metadata:
+      labels:
+        app: monapp
+    spec:
+      containers:
+      - name: monapp
+        image: guillaumemb73/monapp:latest
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - mountPath: /mnt/data
+          name: mon-volume
+        env:
+        - name: REDIS_HOST
+          value: redis
+      volumes:
+      - name: mon-volume
+        persistentVolumeClaim:
+          claimName: my-pvc-new
+

@@ -1,0 +1,34 @@
+---
+- name: Provision userapi server
+  hosts: userapi_server  
+  # Run commands as root
+  become: true
+  # Roles to be executed on these hosts
+  roles:
+    - role: userapi/install 
+      tags: install
+
+    - role: userapi/healthchecks  
+      tags: check
+
+  tasks:
+    - name: Readiness check
+      uri:
+        url: http://127.0.0.1:3000/readiness  
+        return_content: yes
+      register: readiness_result
+
+    - name: Print Readiness check result
+      debug:
+        var: readiness_result.content
+
+    - name: Liveness check
+      uri:
+        url: http://127.0.0.1:3000/liveness  
+        return_content: yes
+      register: liveness_result
+
+    - name: Print Liveness check result
+      debug:
+        var: liveness_result.content
+

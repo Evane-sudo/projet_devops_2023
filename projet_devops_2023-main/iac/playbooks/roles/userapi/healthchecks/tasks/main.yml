@@ -1,0 +1,30 @@
+---
+# Taches à terminer
+# Replace the path and regexp based on your userapi application's configuration
+# - name: Uncomment the GitLab IP whitelist line
+#   replace:
+#     path: /etc/userapi/userapi.rb  # Update the path based on your application
+#     regexp: '^# (userapi_rails\[''monitoring_whitelist''\] = \[.*)\]$'
+#     replace: '\1, ''127.0.0.1'']' 
+
+# Additional tasks for userapi application
+# - name: Execute additional tasks for userapi
+#   # Add tasks specific to your userapi application
+
+# - name: Restart userapi service
+#   # Add tasks to restart the userapi service
+
+# END OF OPTIONAL TASKS
+
+- name: Check userapi server health
+  uri:
+    url: http://127.0.0.1/health  
+    return_content: yes
+  # Register the output of the module in a variable
+  register: userapi_health
+
+- name: Print userapi server health
+  debug:
+    msg: "{{ userapi_health.content }}"
+
+# Run the 2 other kinds of health checks below
