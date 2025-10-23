@@ -306,9 +306,3 @@ kubectl scale deployment $nom_deployment --replicas=0
 ![image2](/image/image2.png)
 
 On remarque maintenant que nous avons plus qu'un seul cluster et que l'alerte est sur 1. Cela est possible grâce la métrics  kube_deployment_status_available_replicable
-
-
-**Collaborateurs**
-
-Guillaume MARIN-BERTIN
-Reine Axelle NGUEFACK
